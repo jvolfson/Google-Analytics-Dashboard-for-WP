@@ -14,6 +14,17 @@ if ( ! defined( 'ABSPATH' ) )
 $profile = GADWP_Tools::get_selected_profile( $this->gadwp->config->options['ga_dash_profile_list'], $this->gadwp->config->options['ga_dash_tableid_jail'] );
 ?>
 <script>
+  function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    var items = location.search.substr(1).split("&");
+    for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+  }
+
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -67,6 +78,29 @@ if ( $this->gadwp->config->options['ga_enhanced_links'] ) {
   ga('require', 'linkid', 'linkid.js');
 <?php
 }
+/* MODIFIED */
+	if( is_single() ) {
+		$template = 'single';
+	} elseif ( is_page() ) {
+		$template = 'page';
+	} elseif ( is_search() ) {
+		$template = 'search';
+	} elseif ( is_home() ) {
+		$template = 'home';
+	} elseif ( is_category() ) {
+		$template = 'category';
+	} elseif ( is_tag() ) {
+		$template = 'tag';
+	} elseif ( is_404() ) {
+		$template = 'error404';
+	}
+	?>
+  ga('set', 'dimension1', '<?= $template ?>');
+  if(findGetParameter('widget')) {
+  	ga('set', 'dimension2', findGetParameter('widget'));
+  }
+<?php
+/* END MODIFIED */
 if ( $this->gadwp->config->options['ga_author_dimindex'] && ( is_single() || is_page() ) ) {
 	global $post;
 	$author_id = $post->post_author;
