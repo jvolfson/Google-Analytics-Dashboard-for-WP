@@ -90,10 +90,8 @@ if ( $this->gadwp->config->options['ga_enhanced_links'] ) {
 	if(widget) {
   	  ga('set', 'dimension2', widget);
   	  if(window.history && window.history.replaceState) {
-	  	console.log('before', document.location);
 	  	var new_search = document.location.search.replace(/widget=(.*?)(&|$)/, '');
 		window.history.replaceState("new", document.title, document.location.pathname + ( new_search==='?' ? '' : new_search ) );
-		console.log('after', document.location);
 	  }
 	}
   }
