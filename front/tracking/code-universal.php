@@ -86,9 +86,9 @@ if ( $this->gadwp->config->options['ga_enhanced_links'] ) {
 	?>
   ga('set', 'dimension1', '<?= $template ?>');
   if(document.location) {
-	var widget = document.location.search.match(/widget=(.*?)(&|$)/)[1]
+	var widget = document.location.search.match(/widget=(.*?)(&|$)/);
 	if(widget) {
-  	  ga('set', 'dimension2', widget);
+  	  ga('set', 'dimension2', widget[1]);
   	  if(window.history && window.history.replaceState) {
 	  	var new_search = document.location.search.replace(/widget=(.*?)(&|$)/, '');
 		window.history.replaceState("new", document.title, document.location.pathname + ( new_search==='?' ? '' : new_search ) );
